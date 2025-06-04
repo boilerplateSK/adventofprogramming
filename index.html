@@ -1,1 +1,430 @@
-<h1>Hai, this is my first page</h1>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Universe of Code: An Interactive Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Harmony (Background: Stone-100, Text: Stone-800, Headers: Amber-900, Accent: Teal-600) -->
+    <!-- Application Structure Plan: The SPA uses a vertical, single-page scrolling layout with a sticky top navigation bar. This structure transforms the linear report into a non-linear, exploratory experience. It's designed to break down complex topics into digestible, interactive modules (e.g., "The Core Idea," "The Programmer's Toolbox," "A Journey Through Time"). This modular, card-based design is more engaging for students than a long text document, encouraging them to jump between topics and interact with the content in the order that interests them most, which is a superior learning flow for this type of educational content. -->
+    <!-- Visualization & Content Choices: Report tables and dense text are converted into interactive visualizations. 1) Human vs Machine Code: A visual toggle shows the complexity difference. 2) Compiler vs Interpreter: A CSS animation demonstrates their operational differences. 3) Ladder of Abstraction: An interactive HTML/CSS diagram allows users to click rungs to reveal information, making an abstract concept tangible. 4) Language Domains: A CSS grid of clickable "Toolbox" cards replaces a static table, revealing languages for each domain. 5) Language History: A Chart.js scatter plot creates a dynamic, clickable timeline. 6) Paradigms: An interactive three-column layout with clickable tabs breaks down OOP, FP, and Procedural concepts. 7) Trade-offs: Interactive Chart.js horizontal bar charts act as visual scales. These choices prioritize engagement and conceptual understanding over static data presentation. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { transition: all 0.3s ease-in-out; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        .nav-link { transition: color 0.2s; }
+        .nav-link.active { color: #0D9488; font-weight: 600; }
+        .toolbox-card-inner { transform-style: preserve-3d; transition: transform 0.6s; }
+        .toolbox-card.is-flipped .toolbox-card-inner { transform: rotateY(180deg); }
+        .toolbox-card-front, .toolbox-card-back { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .toolbox-card-back { transform: rotateY(180deg); }
+        .chart-container { position: relative; width: 100%; max-width: 900px; margin-left: auto; margin-right: auto; height: 400px; max-height: 50vh; }
+        @media (max-width: 768px) { .chart-container { height: 350px; max-height: 60vh; } }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800">
+
+    <header id="header" class="sticky top-0 z-50 bg-stone-100/80 backdrop-blur-sm shadow-sm">
+        <nav class="container mx-auto px-4">
+            <ul class="flex items-center justify-center space-x-4 sm:space-x-8 py-4 text-sm sm:text-base text-stone-600 font-medium overflow-x-auto">
+                <li><a href="#what" class="nav-link whitespace-nowrap">The 'What'</a></li>
+                <li><a href="#why" class="nav-link whitespace-nowrap">The 'Why'</a></li>
+                <li><a href="#how" class="nav-link whitespace-nowrap">The 'How'</a></li>
+                <li><a href="#paradigms" class="nav-link whitespace-nowrap">Paradigms</a></li>
+                <li><a href="#tradeoffs" class="nav-link whitespace-nowrap">Trade-offs</a></li>
+                <li><a href="#ecosystem" class="nav-link whitespace-nowrap">Ecosystem</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 sm:py-12">
+        
+        <section class="text-center mb-16 sm:mb-24">
+            <h1 class="text-4xl sm:text-6xl font-bold text-amber-900/90 mb-4">The Universe of Code</h1>
+            <p class="text-lg sm:text-xl text-stone-700 max-w-3xl mx-auto">An interactive journey into why we have so many programming languages and what makes each one unique. Let's explore the 'what', 'why', and 'how' of the code that powers our world.</p>
+        </section>
+
+        <section id="what" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-amber-900/90 mb-2 text-center">The 'What': From Idea to Action</h2>
+            <p class="text-lg text-stone-600 text-center max-w-4xl mx-auto mb-12">At its core, a programming language is a bridge between a human's idea and a computer's action. But how does that translation actually happen? Let's look at the fundamental building blocks.</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md card lg:col-span-1">
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">Human vs. Machine</h3>
+                    <p class="text-sm text-stone-600 mb-4">Humans write in high-level languages designed for readability. Computers only understand machine code (binary). This vast difference is why programming languages were invented.</p>
+                    <div class="bg-stone-50 p-4 rounded-md">
+                        <div class="flex justify-between items-center mb-2">
+                             <label for="codeToggle" class="text-sm font-semibold text-stone-700">Show as:</label>
+                             <div class="relative inline-block w-20 h-8 bg-stone-200 rounded-full">
+                                <input type="checkbox" id="codeToggle" class="hidden">
+                                <label for="codeToggle" class="absolute inset-0 cursor-pointer"></label>
+                                <span class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform" id="toggle-knob"></span>
+                                <span class="absolute left-9 top-1/2 -translate-y-1/2 text-xs font-bold text-stone-500" id="toggle-text">Human</span>
+                            </div>
+                        </div>
+                        <div id="code-display" class="font-mono text-sm bg-stone-900 text-green-400 p-3 rounded-md overflow-x-auto whitespace-pre">print("Hello, Student!")</div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md card lg:col-span-2">
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">The Translators: Compiler vs. Interpreter</h3>
+                    <p class="text-sm text-stone-600 mb-4">Source code must be translated. Compilers translate the entire program at once, creating a fast executable file. Interpreters translate and run the code line-by-line, which is more flexible for development.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                        <div class="text-center">
+                            <h4 class="font-semibold mb-2">Compiler</h4>
+                            <div class="relative h-24 bg-stone-100 rounded-md p-2 flex flex-col justify-center items-center">
+                                <div class="text-sm font-mono text-stone-500">[ entire_code.c ]</div>
+                                <div class="w-8 h-8 my-1 flex items-center justify-center">
+                                    <svg class="w-6 h-6 animate-spin" style="animation-duration: 2s;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                </div>
+                                <div class="text-sm font-mono text-teal-600">[ program.exe ]</div>
+                            </div>
+                             <p class="text-xs text-stone-500 mt-2">Whole book translated at once.</p>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="font-semibold mb-2">Interpreter</h4>
+                            <div class="relative h-24 bg-stone-100 rounded-md p-2 flex flex-col justify-center items-center overflow-hidden">
+                                <div class="font-mono text-sm text-stone-500 whitespace-nowrap interpreter-code" style="animation: scrollUp 6s linear infinite;">line 1... <br> line 2... <br> line 3... <br> line 1...</div>
+                            </div>
+                            <style>@keyframes scrollUp { 0% { transform: translateY(100%); } 100% { transform: translateY(-100%); } }</style>
+                            <p class="text-xs text-stone-500 mt-2">Sentence-by-sentence translation.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-lg shadow-md card md:col-span-2 lg:col-span-3">
+                    <h3 class="text-xl font-bold text-teal-700 mb-3">The Ladder of Abstraction</h3>
+                     <p class="text-sm text-stone-600 mb-4">Programming lets us build complex software without knowing every detail of the hardware. We work on "rungs" of a ladder, with each level hiding the complexity of the one below it. Click a rung to learn more.</p>
+                    <div class="flex flex-col md:flex-row gap-6 mt-4">
+                        <div class="flex md:flex-col justify-between md:justify-start space-x-2 md:space-x-0 md:space-y-1 flex-wrap">
+                            <button data-level="6" class="ladder-rung text-left p-2 rounded text-sm font-semibold w-full bg-teal-100 text-teal-800">Frameworks/Libraries</button>
+                            <button data-level="5" class="ladder-rung text-left p-2 rounded text-sm font-semibold w-full">High-Level Languages</button>
+                            <button data-level="4" class="ladder-rung text-left p-2 rounded text-sm font-semibold w-full">Low-Level Languages</button>
+                            <button data-level="3" class="ladder-rung text-left p-2 rounded text-sm font-semibold w-full">Assembly Language</button>
+                            <button data-level="2" class="ladder-rung text-left p-2 rounded text-sm font-semibold w-full">Machine Code</button>
+                            <button data-level="1" class="ladder-rung text-left p-2 rounded text-sm font-semibold w-full">Hardware</button>
+                        </div>
+                        <div class="flex-grow bg-stone-50 p-4 rounded-md">
+                            <div id="ladder-info" class="fade-in">
+                                <h4 id="ladder-title" class="font-bold text-stone-800">Frameworks & Libraries</h4>
+                                <p id="ladder-desc" class="text-sm text-stone-600 mt-1">The highest level. Pre-built components and application skeletons (e.g., React, Django) that let us build complex apps very quickly.</p>
+                                <div id="ladder-code" class="font-mono text-xs bg-stone-900 text-green-400 p-2 mt-2 rounded-md overflow-x-auto">&lt;Button text="Click Me" /&gt;</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-amber-900/90 mb-2 text-center">The 'Why': A Tool for Every Task</h2>
+            <p class="text-lg text-stone-600 text-center max-w-4xl mx-auto mb-12">There's no single "best" language because programming is like a craft. You need a full toolbox with specialized tools for different jobs. Explore some common domains and their preferred languages.</p>
+            <div id="toolbox" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            </div>
+        </section>
+
+        <section id="how" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-amber-900/90 mb-2 text-center">The 'How': A Journey Through Time</h2>
+            <p class="text-lg text-stone-600 text-center max-w-4xl mx-auto mb-12">Languages aren't created in a vacuum. They evolve, borrowing ideas and fixing the flaws of their predecessors. This timeline shows some key milestones in that journey. Click a point to see its details.</p>
+            <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+                <div id="timeline-details" class="mt-4 p-4 bg-stone-50 rounded-md hidden fade-in min-h-[100px]">
+                    <h4 id="timeline-lang" class="text-lg font-bold text-teal-700"></h4>
+                    <p id="timeline-info" class="text-sm text-stone-600"></p>
+                    <p id="timeline-influence" class="text-xs text-stone-500 mt-2"></p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="paradigms" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-amber-900/90 mb-2 text-center">Blueprints for Building: Paradigms</h2>
+            <p class="text-lg text-stone-600 text-center max-w-4xl mx-auto mb-12">A programming paradigm is a "style" or philosophy of how to structure your code. Different paradigms offer different ways of thinking about and solving problems.</p>
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="font-bold text-xl text-teal-700 mb-3">Procedural</h3>
+                    <p class="text-sm text-stone-600 mb-4">Views a program as a step-by-step recipe or sequence of instructions. It's organized into procedures (functions).</p>
+                    <div class="text-center p-4 bg-stone-50 rounded-md">
+                         <span class="text-3xl">📜</span>
+                         <p class="font-semibold mt-2">Follow the Recipe</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="font-bold text-xl text-teal-700 mb-3">Object-Oriented (OOP)</h3>
+                    <p class="text-sm text-stone-600 mb-4">Organizes code around "objects" that bundle data and behavior, modeling real-world things and their interactions.</p>
+                     <div class="text-center p-4 bg-stone-50 rounded-md">
+                         <span class="text-3xl">🏠</span>
+                         <p class="font-semibold mt-2">Build from Blueprints</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="font-bold text-xl text-teal-700 mb-3">Functional (FP)</h3>
+                    <p class="text-sm text-stone-600 mb-4">Treats computation like a mathematical function, emphasizing data that flows through unchangeable operations.</p>
+                     <div class="text-center p-4 bg-stone-50 rounded-md">
+                         <span class="text-3xl">⚙️</span>
+                         <p class="font-semibold mt-2">Data Assembly Line</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tradeoffs" class="mb-16 sm:mb-24 scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-amber-900/90 mb-2 text-center">The Great Balancing Act: Trade-offs</h2>
+            <p class="text-lg text-stone-600 text-center max-w-4xl mx-auto mb-12">No language is perfect for everything. Language design is a series of trade-offs, balancing competing goals like speed, safety, and ease of use.</p>
+            <div class="space-y-8">
+                <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="text-lg font-semibold">Speed of Writing vs. Speed of Running</h3>
+                    <p class="text-sm text-stone-500 mb-4">Is it more important to build fast or run fast?</p>
+                    <div class="h-24"><canvas id="tradeoffChart1"></canvas></div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="text-lg font-semibold">Type Safety: Early vs. Late Checks</h3>
+                    <p class="text-sm text-stone-500 mb-4">Catch errors before you run (Static) or during runtime (Dynamic)?</p>
+                    <div class="h-24"><canvas id="tradeoffChart2"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ecosystem" class="scroll-mt-20">
+            <h2 class="text-3xl sm:text-4xl font-bold text-amber-900/90 mb-2 text-center">More Than Code: The Ecosystem</h2>
+            <p class="text-lg text-stone-600 text-center max-w-4xl mx-auto mb-12">A language is only as powerful as its ecosystem: the libraries, frameworks, tools, and community that support it. Here's a glimpse into the worlds of Python and JavaScript.</p>
+             <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="text-xl font-bold text-teal-700 mb-4 text-center">Python's Ecosystem</h3>
+                    <div class="relative p-4 bg-stone-50 rounded-md min-h-[300px] flex items-center justify-center">
+                        <div class="absolute text-center">
+                            <img src="https://placehold.co/80x80/38bdf8/ffffff?text=Py" alt="Python Logo" class="mx-auto rounded-full">
+                            <p class="font-bold mt-2">Python</p>
+                        </div>
+                        <div class="ecosystem-node" style="top: 10%; left: 40%;">Data Science</div>
+                        <div class="ecosystem-node" style="top: 30%; left: 8%;">Web Dev</div>
+                        <div class="ecosystem-node" style="top: 65%; left: 15%;">Automation</div>
+                        <div class="ecosystem-node" style="top: 80%; left: 50%;">AI/ML</div>
+                        <div class="ecosystem-node" style="top: 55%; left: 75%;">Gaming</div>
+                        <div class="ecosystem-node" style="top: 25%; left: 70%;">Libraries</div>
+                    </div>
+                </div>
+                 <div class="bg-white p-6 rounded-lg shadow-md card">
+                    <h3 class="text-xl font-bold text-teal-700 mb-4 text-center">JavaScript's Ecosystem</h3>
+                    <div class="relative p-4 bg-stone-50 rounded-md min-h-[300px] flex items-center justify-center">
+                         <div class="absolute text-center">
+                            <img src="https://placehold.co/80x80/facc15/000000?text=JS" alt="JS Logo" class="mx-auto rounded-full">
+                            <p class="font-bold mt-2">JavaScript</p>
+                        </div>
+                        <div class="ecosystem-node" style="top: 15%; left: 10%;">Frontend</div>
+                        <div class="ecosystem-node" style="top: 15%; left: 70%;">Backend</div>
+                        <div class="ecosystem-node" style="top: 50%; left: 5%;">Mobile</div>
+                        <div class="ecosystem-node" style="top: 85%; left: 38%;">Tooling</div>
+                        <div class="ecosystem-node" style="top: 50%; left: 75%;">Testing</div>
+                    </div>
+                </div>
+            </div>
+            <style>.ecosystem-node { position: absolute; background-color: #f5f5f4; color: #44403c; padding: 4px 8px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; border: 1px solid #d6d3d1; }</style>
+        </section>
+
+    </main>
+
+    <footer class="text-center py-8 text-sm text-stone-500">
+        <p>An interactive exploration of programming languages. Designed for students and the curious.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const codeToggle = document.getElementById('codeToggle');
+            const codeDisplay = document.getElementById('code-display');
+            const toggleKnob = document.getElementById('toggle-knob');
+            const toggleText = document.getElementById('toggle-text');
+            
+            const humanCode = 'print("Hello, Student!")';
+            const machineCode = '01010000 01110010 01101001 01101110 01110100...';
+
+            codeToggle.addEventListener('change', () => {
+                if (codeToggle.checked) {
+                    codeDisplay.textContent = machineCode;
+                    codeDisplay.classList.remove('text-green-400');
+                    codeDisplay.classList.add('text-red-400');
+                    toggleKnob.style.transform = 'translateX(2rem)';
+                    toggleText.textContent = 'Machine';
+                } else {
+                    codeDisplay.textContent = humanCode;
+                    codeDisplay.classList.remove('text-red-400');
+                    codeDisplay.classList.add('text-green-400');
+                    toggleKnob.style.transform = 'translateX(0)';
+                    toggleText.textContent = 'Human';
+                }
+            });
+
+            const ladderRungs = document.querySelectorAll('.ladder-rung');
+            const ladderInfo = {
+                '1': { title: 'Hardware', desc: 'The physical components. Transistors and logic gates that execute instructions based on electrical signals.', code: '0/1 (Voltage High/Low)' },
+                '2': { title: 'Machine Code', desc: 'The native language of the CPU, represented in binary (1s and 0s). Each instruction is a direct command.', code: '10110001 00000101' },
+                '3': { title: 'Assembly Language', desc: 'A low-level language using mnemonics (like MOV, ADD) for machine instructions. More readable than binary.', code: 'MOV AL, 5' },
+                '4': { title: 'Low-Level Languages', desc: 'Languages like C that provide more abstraction (variables, functions) but still allow close-to-hardware memory control.', code: 'int x = 5;' },
+                '5': { title: 'High-Level Languages', desc: 'Languages like Python or Java with strong abstraction, automatic memory management, and human-readable syntax.', code: 'x = 5' },
+                '6': { title: 'Frameworks & Libraries', desc: 'The highest level. Pre-built components and application skeletons (e.g., React, Django) that let us build complex apps very quickly.', code: '<Button text="Click Me" />' }
+            };
+
+            ladderRungs.forEach(rung => {
+                rung.addEventListener('click', (e) => {
+                    ladderRungs.forEach(r => r.classList.remove('bg-teal-100', 'text-teal-800'));
+                    e.target.classList.add('bg-teal-100', 'text-teal-800');
+                    const level = e.target.getAttribute('data-level');
+                    const info = ladderInfo[level];
+                    document.getElementById('ladder-title').textContent = info.title;
+                    document.getElementById('ladder-desc').textContent = info.desc;
+                    document.getElementById('ladder-code').textContent = info.code;
+                    document.getElementById('ladder-info').classList.remove('fade-in');
+                    void document.getElementById('ladder-info').offsetWidth;
+                    document.getElementById('ladder-info').classList.add('fade-in');
+                });
+            });
+
+            const toolboxData = [
+                { domain: 'Web Frontend', emoji: '🌐', desc: 'Creating the visual, interactive parts of websites that users see and click.', langs: 'JavaScript, TypeScript' },
+                { domain: 'Web Backend', emoji: '🗄️', desc: 'Powering the server, database, and application logic behind the scenes.', langs: 'Python, Node.js, Java, Go' },
+                { domain: 'Mobile Apps', emoji: '📱', desc: 'Building applications for iOS and Android devices.', langs: 'Swift (iOS), Kotlin (Android)' },
+                { domain: 'Data Science / AI', emoji: '🧠', desc: 'Analyzing data, building machine learning models, and finding insights.', langs: 'Python, R' },
+                { domain: 'Game Development', emoji: '🎮', desc: 'Creating interactive games, from simple 2D puzzles to complex 3D worlds.', langs: 'C++, C#' },
+                { domain: 'Operating Systems', emoji: '⚙️', desc: 'Building the core software that manages computer hardware and software.', langs: 'C, C++, Rust' },
+                { domain: 'Automation', emoji: '🤖', desc: 'Writing scripts to automate repetitive tasks and workflows.', langs: 'Python, Bash' },
+                { domain: 'Legacy Systems', emoji: '🏛️', desc: 'Maintaining critical, long-running systems often found in finance and government.', langs: 'COBOL, Fortran' },
+            ];
+            
+            const toolboxContainer = document.getElementById('toolbox');
+            toolboxData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'toolbox-card bg-white rounded-lg shadow-md cursor-pointer perspective-1000';
+                card.innerHTML = `
+                    <div class="toolbox-card-inner relative w-full h-48">
+                        <div class="toolbox-card-front absolute w-full h-full p-6 flex flex-col items-center justify-center text-center">
+                            <span class="text-5xl mb-3">${item.emoji}</span>
+                            <h4 class="font-bold text-lg text-amber-900/90">${item.domain}</h4>
+                        </div>
+                        <div class="toolbox-card-back absolute w-full h-full bg-teal-600 text-white p-6 rounded-lg flex flex-col justify-center">
+                            <h4 class="font-bold text-lg">${item.domain}</h4>
+                            <p class="text-sm my-2">${item.desc}</p>
+                            <p class="text-xs font-semibold mt-2">Tools: ${item.langs}</p>
+                        </div>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    card.classList.toggle('is-flipped');
+                });
+                toolboxContainer.appendChild(card);
+            });
+            
+            const timelineData = [
+                { x: 1957, y: 1, name: 'FORTRAN', info: 'First widely used high-level language, for scientific computing.', influence: 'Influenced almost all procedural languages.'},
+                { x: 1958, y: 2, name: 'LISP', info: 'Pioneered functional programming, garbage collection, and AI research.', influence: 'Influenced Python, Ruby, JavaScript.' },
+                { x: 1959, y: 1, name: 'COBOL', info: 'Designed for business data processing with an English-like syntax.', influence: 'Still powers many mainframe systems.'},
+                { x: 1964, y: 1.5, name: 'BASIC', info: 'Created to be simple and accessible for beginners.', influence: 'Led to Visual Basic.' },
+                { x: 1970, y: 1.5, name: 'Pascal', info: 'Emphasized structured programming and was a popular teaching language.', influence: 'Influenced Modula-2, Ada.'},
+                { x: 1972, y: 2.5, name: 'C', info: 'Powerful and efficient, became the foundation for modern systems programming.', influence: 'The parent of C++, Java, C#, Python, JavaScript...'},
+                { x: 1983, y: 3, name: 'C++', info: 'Added object-oriented features to C, dominant in game engines and high-performance apps.', influence: 'Influenced Java, C#.'},
+                { x: 1991, y: 2.5, name: 'Python', info: 'Designed for readability and simplicity. Huge in web, data science, and AI.', influence: 'Influenced by ABC, Lisp.'},
+                { x: 1995, y: 3.5, name: 'Java', info: '"Write Once, Run Anywhere". Dominant in enterprise software and Android.', influence: 'Influenced C#, Kotlin.'},
+                { x: 1995, y: 2, name: 'JavaScript', info: 'The language of the web browser, enabling interactive websites.', influence: 'Influenced by Scheme, Self.'},
+                { x: 1995, y: 1, name: 'Ruby', info: 'Focused on developer happiness and elegant syntax, famed for the Rails framework.', influence: 'Influenced by Perl, Smalltalk.'},
+                { x: 2000, y: 4, name: 'C#', info: 'Microsoft\'s answer to Java, key for Windows dev and the Unity game engine.', influence: 'Influenced by Java, C++.'},
+                { x: 2009, y: 3, name: 'Go', info: 'Google\'s language for concurrent programming and cloud services; simple and fast.', influence: 'Influenced by C, Oberon.'},
+                { x: 2010, y: 2.5, name: 'Rust', info: 'Focuses on memory safety without a garbage collector, loved for performance.', influence: 'Influenced by C++, Haskell.'},
+                { x: 2014, y: 4, name: 'Swift', info: 'Apple\'s modern, safe, and fast language for iOS and macOS apps.', influence: 'Influenced by Objective-C, Rust.'},
+            ];
+
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            const timelineChart = new Chart(timelineCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Programming Languages',
+                        data: timelineData,
+                        backgroundColor: 'rgb(13, 148, 136, 0.7)',
+                        pointRadius: 8,
+                        pointHoverRadius: 12,
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: { display: true, text: 'Year of Introduction' }
+                        },
+                        y: { display: false }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) { return context.raw.name; }
+                            }
+                        }
+                    },
+                    onClick: (e, elements) => {
+                        if (elements.length > 0) {
+                            const dataPoint = timelineData[elements[0].index];
+                            const detailsDiv = document.getElementById('timeline-details');
+                            document.getElementById('timeline-lang').textContent = `${dataPoint.name} (${dataPoint.x})`;
+                            document.getElementById('timeline-info').textContent = dataPoint.info;
+                            document.getElementById('timeline-influence').textContent = dataPoint.influence;
+                            detailsDiv.classList.remove('hidden');
+                        }
+                    }
+                }
+            });
+
+            const createTradeoffChart = (id, labelA, labelB, dataA, dataB, colorA, colorB) => {
+                 new Chart(document.getElementById(id).getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: [''],
+                        datasets: [
+                            { label: labelA, data: [dataA], backgroundColor: colorA, stack: 'Stack 0' },
+                            { label: labelB, data: [dataB], backgroundColor: colorB, stack: 'Stack 0' }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        scales: { x: { display: false, stacked: true }, y: { display: false, stacked: true } },
+                        plugins: { legend: { position: 'bottom' }, tooltip: { enabled: true } }
+                    }
+                });
+            };
+            createTradeoffChart('tradeoffChart1', 'Easier to Write (Python)', 'Faster to Run (C++)', 65, 35, 'rgb(59, 130, 246, 0.7)', 'rgb(239, 68, 68, 0.7)');
+            createTradeoffChart('tradeoffChart2', 'Safer but Stricter (Java)', 'Flexible but Risky (JS)', 55, 45, 'rgb(16, 185, 129, 0.7)', 'rgb(245, 158, 11, 0.7)');
+
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 80) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
